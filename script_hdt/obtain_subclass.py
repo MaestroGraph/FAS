@@ -7,13 +7,13 @@ PATH_LOD = "/scratch/wbeek/data/LOD-a-lot/data.hdt"
 hdt_file = HDTDocument(PATH_LOD)
 
 subclass = "http://www.w3.org/2000/01/rdf-schema#subClassOf"
-subclass_id = hdt.convert_term(subclass, IdentifierPosition.Predicate)
+subclass_id = hdt_file.convert_term(subclass, IdentifierPosition.Predicate)
 
 (triples, cardi) = hdt_file.search_triple_ids(0, subclass_id, 0)
 
 print (cardi)
 
-file_name = 'subclass' 
+file_name = 'subclass'
 outputfile =  open(file_name, 'w', newline='')
 writer = csv.writer(outputfile, delimiter='\t')
 for (l, p, r) in triples:
