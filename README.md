@@ -1,7 +1,27 @@
+===
+Cycle-resolving at web scale using FAS solver
+===
+
+The code is adapted from an FAS solver by Michael Simpson, et al.
+
+Contact: shuai.wang@vu.nl
+
+Changes
+--
+There are mainly three things in this forked repo:
+- Python scripts for the conversion of entries between hdt index and IRIs
+- bash scripts for fast compile, conversion to WebGraph format, and executing commands (java)
+- analysis of the results (how edges in SCCs are removed; removed edges in size-two cycles)
+
+
+
+The following is from the original readme file.
+
+===
 Computing Feedback Arc Sets for Very Large Graphs
 ===
 
-This repository contains efficient implementations for computing feedback arc sets on large graphs. The details of the implementations and their optimizations are described in the following paper: 
+This repository contains efficient implementations for computing feedback arc sets on large graphs. The details of the implementations and their optimizations are described in the following paper:
 
 *Michael Simpson, Venkatesh Srinivasan, Alex Thomo:
 Efficient Computation of Feedback Arc Set at Web-Scale. PVLDB 10(3): 133-144 (2016)*
@@ -26,7 +46,7 @@ Input
 
 The graphs should be in WebGraph format.  
 
-There are three files in this format: 
+There are three files in this format:
 
 *basename.graph* <br>
 *basename.properties* <br>
@@ -35,7 +55,7 @@ There are three files in this format:
 There many available datasets in this format in:
 http://law.di.unimi.it/datasets.php
 
-Let us see for an example dataset, *cnr-2000*, in 
+Let us see for an example dataset, *cnr-2000*, in
 http://law.di.unimi.it/webdata/cnr-2000
 
 There you can see the following files available for download.
@@ -47,7 +67,7 @@ There you can see the following files available for download.
 *...* <br>
 (you can ignore the rest of the files)
 
-The first two files are for the forward (regular) *cnr-2000* graph. The other two are for the transpose (inverse) graph. If you only need the forward graph, just download: 
+The first two files are for the forward (regular) *cnr-2000* graph. The other two are for the transpose (inverse) graph. If you only need the forward graph, just download:
 
 *cnr-2000.graph* <br>
 *cnr-2000.properties*
@@ -59,16 +79,16 @@ __java -cp "lib/*" it.unimi.dsi.webgraph.BVGraph -o -O -L cnr-2000__
 
 Edgelist format
 --
-This section is for the case when your graph is given a text file of edges (known as edgelist). *If your graph is already in WebGraph format, skip to the next section.* 
+This section is for the case when your graph is given a text file of edges (known as edgelist). *If your graph is already in WebGraph format, skip to the next section.*
 
-It is very easy to convert an edgelist file into WebGraph format. 
-I am making the folloiwng assumptions: 
+It is very easy to convert an edgelist file into WebGraph format.
+I am making the folloiwng assumptions:
 
-1. The graph is unlabeled and the vertices are given by consecutive numbers, 0,1,2,... <br> (If there are some vertices "missing", e.g. you don't have a vertex 0 in your file, it's not a problem. WebGraph will create dummy vertices, e.g. 0, that does not have any neighbor.) 
+1. The graph is unlabeled and the vertices are given by consecutive numbers, 0,1,2,... <br> (If there are some vertices "missing", e.g. you don't have a vertex 0 in your file, it's not a problem. WebGraph will create dummy vertices, e.g. 0, that does not have any neighbor.)
 
-2. The edgelist file is TAB separated (not comma separated). 
+2. The edgelist file is TAB separated (not comma separated).
 
-Now, to convert the edgelist file to WebGraph format execute the following steps: 
+Now, to convert the edgelist file to WebGraph format execute the following steps:
 
 Sort the file, then remove any duplicate edges:
 
@@ -76,7 +96,7 @@ Sort the file, then remove any duplicate edges:
 
 (If you are on Windows, download *sort.exe* and *uniq.exe* from http://gnuwin32.sourceforge.net/packages/coreutils.htm)
 
-Run: 
+Run:
 
 __java -cp "lib/*" it.unimi.dsi.webgraph.BVGraph -1 -g ArcListASCIIGraph dummy basename &lt; edgelistsortedfile__
 
