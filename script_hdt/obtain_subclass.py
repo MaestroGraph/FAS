@@ -13,7 +13,7 @@ subclass_id = hdt.convert_term(subclass, IdentifierPosition.Predicate)
 
 print (cardi)
 
-file_name = ''
+file_name = 'subclass' 
 outputfile =  open(file_name, 'w', newline='')
 writer = csv.writer(outputfile, delimiter='\t')
 for (l, p, r) in triples:
