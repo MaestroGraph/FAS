@@ -1,5 +1,5 @@
 
-# ycle-resolving at web scale using FAS solver
+# Cycle-resolving at web scale using FAS solver
 
 
 The code is adapted from an FAS solver by Michael Simpson, et al.
