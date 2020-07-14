@@ -5,15 +5,16 @@ import csv
 
 
 def compute_inverse_graph ():
-    print (str(sys.argv))
+    # print (str(sys.argv))
     filename = sys.argv[1]
     outputfilename = filename+'-t'
     print ('file name = ', filename)
     with open(filename, 'r', newline='') as csvfile:
-        csv_reader = csv.reader(csvfile, delimiter=' ')
+        csv_reader = csv.reader(csvfile, delimiter='\t')
         outputfile = open(outputfilename, 'w', newline='')
         writer = csv.writer(outputfile, delimiter='\t')
         for row in csv_reader:
+            # print ('row is: ',row)
             left = row[0]
             right = row[1]
             writer.writerow([right, left])
