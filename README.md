@@ -1,6 +1,6 @@
-===
-Cycle-resolving at web scale using FAS solver
-===
+
+#Cycle-resolving at web scale using FAS solver
+
 
 The code is adapted from an FAS solver by Michael Simpson, et al.
 
@@ -11,15 +11,14 @@ Changes
 There are mainly three things in this forked repo:
 - Python scripts for the conversion of entries between hdt index and IRIs
 - bash scripts for fast compile, conversion to WebGraph format, and executing commands (java)
-- analysis of the results (how edges in SCCs are removed; removed edges in size-two cycles)
+- scripts for the analysis of the results (how edges in SCCs are removed; removed edges in size-two cycles)
 
 
 
 The following is from the original readme file.
 
-===
-Computing Feedback Arc Sets for Very Large Graphs
-===
+
+#Computing Feedback Arc Sets for Very Large Graphs
 
 This repository contains efficient implementations for computing feedback arc sets on large graphs. The details of the implementations and their optimizations are described in the following paper:
 
