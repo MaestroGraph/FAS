@@ -9,7 +9,7 @@ hdt_file = HDTDocument(PATH_LOD)
 subclass = "http://www.w3.org/2000/01/rdf-schema#subClassOf"
 subclass_id = hdt_file.convert_term(subclass, IdentifierPosition.Predicate)
 
-(triples, cardi) = hdt_file.search_triple_ids(0, subclass_id, 0)
+(triples, cardi) = hdt_file.search_triples_ids(0, subclass_id, 0)
 
 print (cardi)
 
