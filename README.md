@@ -13,6 +13,8 @@ There are mainly three things in this forked repo:
 - bash scripts for fast compile, conversion to WebGraph format, and executing commands (java)
 - scripts for the analysis of the results (how edges in SCCs are removed; removed edges in size-two cycles)
 
+The Python script to get the inverse of a graph: get_inverse_graph.py
+The script: small.sh
 
 
 The following is from the original readme file.
