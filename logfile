@@ -1,0 +1,39 @@
+logfile:
+
+Using ArrayFAS:
+    subclass
+        Graph loaded
+        n=3676563
+        e=4461717
+        fvs size is 23741
+        fas size is 25356
+        subclass: Time elapsed = 7.435
+
+    broader:
+        Graph loaded
+        n=5791077
+        e=11866699
+        fvs size is 378373
+        fas size is 493152
+        broader: Time elapsed = 15.431
+
+Using BergerShorFAS:
+  subclass
+      Graph loaded
+      n=3676563
+      e=4461717
+      fas size is 286482
+      subclass: Time elapsed = 4.216
+
+  broader
+      Graph loaded
+      n=5791077
+      e=11866699
+      fas size is 1649855
+      broader: Time elapsed = 8.025
+
+TODO:
+why BergerShorFAS remove so many? Anything to do with the size-two cycle ?
+What is that dummy about ?
+Compare different algorithms and see which one removes the least
+Test if it removes anything outside of SCC.
