@@ -1,5 +1,5 @@
 
-#Cycle-resolving at web scale using FAS solver
+# ycle-resolving at web scale using FAS solver
 
 
 The code is adapted from an FAS solver by Michael Simpson, et al.
@@ -18,7 +18,7 @@ There are mainly three things in this forked repo:
 The following is from the original readme file.
 
 
-#Computing Feedback Arc Sets for Very Large Graphs
+# Computing Feedback Arc Sets for Very Large Graphs
 
 This repository contains efficient implementations for computing feedback arc sets on large graphs. The details of the implementations and their optimizations are described in the following paper:
 
