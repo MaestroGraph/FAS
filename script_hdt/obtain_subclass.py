@@ -13,11 +13,20 @@ subclass_id = hdt_file.convert_term(subclass, IdentifierPosition.Predicate)
 
 print (cardi)
 
+count = 1
+dict = {}
+
 file_name = 'subclass'
 outputfile =  open(file_name, 'w', newline='')
 writer = csv.writer(outputfile, delimiter='\t')
 for (l, p, r) in triples:
-    writer.writerow([l, r])
+    if l not in dict.keys():
+        dict[l] = count
+        count += 1
+    if r not in dict.keys():
+        dict[r] = count
+        count += 1
+    writer.writerow([dict[l], dict[r]])
 
 outputfile.close()
 
