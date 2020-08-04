@@ -32,6 +32,32 @@ Using BergerShorFAS:
       fas size is 1649855
       broader: Time elapsed = 8.025
 
+Using KS:
+  subclass
+    min fas size is 2194660
+    subclass: Time elapsed = 95.331
+
+    min fas size is 5905846
+broader: Time elapsed = 731.953
+
+Using dll:
+  subclass
+      fas size is 25356
+      subclass: Time elapsed = 7.421
+  broader
+    fas size is 493152
+    broader: Time elapsed = 16.199
+
+Using dfs:
+  subclass:
+      fas = 529
+      subclass: Time elapsed = 1.64
+
+  broader:
+    fas = 125612
+    broader: Time elapsed = 3.448
+
+
 TODO:
 why BergerShorFAS remove so many? Anything to do with the size-two cycle ?
 What is that dummy about ?
