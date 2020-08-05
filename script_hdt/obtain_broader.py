@@ -132,11 +132,11 @@ def init_nodes():
 	outputfile_weight.close()
 	print ('# count weighted edges ', count_weighted_edges)
 
-
 	for k in dict.keys():
 		writer_map.writerow([dict[k], k])
 	outputfile_map.close()
 
+	(broader_triples, cardinality) = hdt_file.search_triples('', broader, '')
 
 	for (s, _, o) in broader_triples:
 		# if the s has only no broader, then s can be removed.
