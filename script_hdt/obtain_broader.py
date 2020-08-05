@@ -129,8 +129,8 @@ def init_nodes():
 			count += 1
 		writer.writerow([dict[l], dict[r]])
 		(triples_reverse, cardi_reverse) = hdt_file.search_triples(r, narrower, l)
-		(triples_eq1, cardi_eq1) = hdt_file.search_triples(l, eq, r)
-		(triples_eq2, cardi_eq2) = hdt_file.search_triples(l, eq, r)
+		(triples_eq1, cardi_eq1) = hdt_file.search_triples(l, eqClass, r)
+		(triples_eq2, cardi_eq2) = hdt_file.search_triples(r, eqClass, l)
 		acc = 0
 
 		if cardi_reverse > 0:
