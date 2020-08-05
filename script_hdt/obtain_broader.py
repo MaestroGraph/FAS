@@ -108,6 +108,8 @@ def init_nodes():
 	global weight
 
 	count = 1
+	count_weighted_edges = 0
+
 
 	(broader_triples, cardinality) = hdt_file.search_triples('', broader, '')
 
