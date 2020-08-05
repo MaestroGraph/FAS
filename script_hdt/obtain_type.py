@@ -33,15 +33,22 @@ type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 print ('there are in total ', cardi1, ' triples')
 
 
-(triples, cardi2) = hdt_file.search_triples("", type, rdfsClass)
-print ('there are in total ', cardi2, ' typed rdfs:Class triples')
+ct = Counter()
+for (_,_, t) in triples:
+	ct[t] += 1
 
-print ('portion = ',cardi2/cardi1)
+print (ct)
 
 
-(triples, cardi3) = hdt_file.search_triples("", type, owlClass)
-print ('there are in total ', cardi3, ' typed owl:Class triples')
-print ('portion = ',cardi3/cardi1)
+# (triples, cardi2) = hdt_file.search_triples("", type, rdfsClass)
+# print ('there are in total ', cardi2, ' typed rdfs:Class triples')
+#
+# print ('portion = ',cardi2/cardi1)
+#
+#
+# (triples, cardi3) = hdt_file.search_triples("", type, owlClass)
+# print ('there are in total ', cardi3, ' typed owl:Class triples')
+# print ('portion = ',cardi3/cardi1)
 
 #type_id = hdt_file.convert_term(type, IdentifierPosition.Predicate)
 #
