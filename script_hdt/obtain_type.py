@@ -29,7 +29,7 @@ owlClass = "http://www.w3.org/2002/07/owl#Class"
 eqClass = "http://www.w3.org/2002/07/owl#equivalentClass"
 type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
-(triples, cardi1) = hdt_file.search_triples("", type, "")
+(triples, cardi1) = hdt_file.search_triples_bytes("", type, "")
 print ('there are in total ', cardi1, ' triples')
 
 
