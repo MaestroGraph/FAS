@@ -38,7 +38,7 @@ for (l, p, r) in triples:
 	if r not in dict.keys():
 		dict[r] = count
 		count += 1
-    writer.writerow([dict[l], dict[r]])
+	writer.writerow([dict[l], dict[r]])
 	(triples_reverse, cardi_reverse) = hdt_file.search_triples(r, narrower, l)
 	if cardi_reverse > 0:
 		writer_weight.writerow([dict[l], dict[r], 2])
