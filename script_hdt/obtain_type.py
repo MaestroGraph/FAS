@@ -44,7 +44,7 @@ for (_,_, t) in triples:
 		t = str(t, errors='ignore')
 	ct[t] += 1
 
-print (ct.most_common(10))
+print (ct.most_common(100))
 
 # (triples, cardi2) = hdt_file.search_triples("", type, rdfsClass)
 # print ('there are in total ', cardi2, ' typed rdfs:Class triples')
