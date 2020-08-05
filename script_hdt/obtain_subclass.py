@@ -294,7 +294,7 @@ def compute_strongly_connected_component():
 	print ('# nodes in SCCs: ', count_scc_nodes)
 	count_weighted_scc_edges = 0
 	# count_scc_edges = 0
-	print (filter_scc)
+	# print (filter_scc)
 
 	for (l, r) in graph.edges:
 		if weight[(dict[l], dict[r])] != 1:
