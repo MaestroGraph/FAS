@@ -39,7 +39,7 @@ for (l, p, r) in triples:
         dict[r] = count
         count += 1
     writer.writerow([dict[l], dict[r]])
-	(triples_reverse, cardi_reverse) = hdt_file.search_triples(r, narrower, l)]
+	(triples_reverse, cardi_reverse) = hdt_file.search_triples(r, narrower, l)
 	if cardi_reverse > 0:
 		writer_weight.writerow([dict[l], dict[r], 2])
 		count_weighted_edges += 1

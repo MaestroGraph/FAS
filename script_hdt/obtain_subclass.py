@@ -39,8 +39,8 @@ for (l, p, r) in triples:
         dict[r] = count
         count += 1
     writer.writerow([dict[l], dict[r]])
-	(triples_reverse1, cardi_reverse1) = hdt_file.search_triples(r, eqClass, l)]
-	(triples_reverse2, cardi_reverse2) = hdt_file.search_triples(l, eqClass, r)]
+	(triples_reverse1, cardi_reverse1) = hdt_file.search_triples(r, eqClass, l)
+	(triples_reverse2, cardi_reverse2) = hdt_file.search_triples(l, eqClass, r)
 	if cardi_reverse1 > 0 or cardi_reverse2 > 0:
 		writer_weight.writerow([dict[l], dict[r], 2])
 		count_weighted_edges += 1
