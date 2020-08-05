@@ -12,6 +12,7 @@ import time
 # from equiClass import equiClassManager
 import random
 from tarjan import tarjan
+from collections import Counter
 
 PATH_LOD = "/scratch/wbeek/data/LOD-a-lot/data.hdt"
 hdt_file = HDTDocument(PATH_LOD)
@@ -52,10 +53,6 @@ file_name_weight_reduced = 'broader_edgelist_weight_reduced'
 outputfile_weight_reduced =  open(file_name_weight_reduced, 'w', newline='')
 writer_weight_reduced = csv.writer(outputfile_weight_reduced, delimiter='\t')
 
-count_weighted_edges = 0
-
-
-print ('# count weighted edges ', count_weighted_edges)
 
 def get_domain_and_label(t):
 	domain = tldextract.extract(t).domain
@@ -133,6 +130,8 @@ def init_nodes():
 
 	outputfile.close()
 	outputfile_weight.close()
+	print ('# count weighted edges ', count_weighted_edges)
+
 
 	for k in dict.keys():
 		writer_map.writerow([dict[k], k])
