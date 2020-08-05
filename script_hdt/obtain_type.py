@@ -176,8 +176,8 @@ def init_nodes():
 		try:
 			l, p, r = l.decode('UTF-8'), p.decode('UTF-8'), r.decode('UTF-8')
 		except UnicodeDecodeError as err:
-			l = unicode(l, errors='ignore')
-			r = unicode(r, errors='ignore')
+			l = str(l, errors='ignore')
+			r = str(r, errors='ignore')
 
 		if l not in dict.keys():
 			dict[l] = count
