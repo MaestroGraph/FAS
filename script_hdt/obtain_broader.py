@@ -38,7 +38,7 @@ outputfile_map =  open(file_name_map, 'w', newline='')
 writer_map = csv.writer(outputfile_map, delimiter='\t')
 
 file_name_map_reduced = 'broader_map_reduced'
-outputfile_map_reduced =  open(file_name_map_scc, 'w', newline='')
+outputfile_map_reduced =  open(file_name_map_reduced, 'w', newline='')
 writer_map_reduced = csv.writer(outputfile_map_reduced, delimiter='\t')
 
 file_name_weight = 'broader_edgelist_weight'
