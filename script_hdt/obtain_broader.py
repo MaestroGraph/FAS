@@ -19,6 +19,8 @@ hdt_file = HDTDocument(PATH_LOD)
 
 broader = "http://www.w3.org/2004/02/skos/core#broader"
 narrower =  "http://www.w3.org/2004/02/skos/core#narrower"
+eqClass = "http://www.w3.org/2002/07/owl#equivalentClass"
+
 # broader_id = hdt_file.convert_term(broader, IdentifierPosition.Predicate)
 
 (triples, cardi) = hdt_file.search_triples("", broader, "")
@@ -127,10 +129,22 @@ def init_nodes():
 			count += 1
 		writer.writerow([dict[l], dict[r]])
 		(triples_reverse, cardi_reverse) = hdt_file.search_triples(r, narrower, l)
+		(triples_eq1, cardi_eq1) = hdt_file.search_triples(l, eq, r)
+		(triples_eq2, cardi_eq2) = hdt_file.search_triples(l, eq, r)
+		acc = 0
+
 		if cardi_reverse > 0:
-			writer_weight.writerow([dict[l], dict[r], 2])
 			weight [(dict[l], dict[r])] = 2
 			count_weighted_edges += 1
+			acc += 1
+		if cardi_eq1 >0 and cardi_eq2 >0 :
+			acc += 1
+
+		if acc == 2:
+			print ('there are cases were broader + narrower + eqClass')
+
+		if acc != 0:
+			writer_weight.writerow([dict[l], dict[r], acc+1])
 		else :
 			writer_weight.writerow([dict[l], dict[r], 1])
 			weight [(dict[l], dict[r])] = 1
