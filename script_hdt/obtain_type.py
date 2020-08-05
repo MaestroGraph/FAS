@@ -32,9 +32,12 @@ type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 (triples, cardi1) = hdt_file.search_triples_bytes("", type, "")
 print ('there are in total ', cardi1, ' triples')
 
-
+count = 0
 ct = Counter()
 for (_,_, t) in triples:
+	count += 1
+	if count %1000000 == 0:
+		print (count , ', processed. That makes ',count / cardi1)
 	try:
 		t = t.decode('UTF-8')
 	except UnicodeDecodeError as err:
