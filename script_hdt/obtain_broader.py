@@ -232,9 +232,11 @@ def compute_strongly_connected_component():
 	print('# Connected Component Filtered: ', len(filter_scc))
 	ct = Counter()
 	count_scc_nodes = 0
+	collect_scc_nodes = []
 	for c in filter_scc:
 		ct[len(c)] += 1
 		count_scc_nodes += len (c)
+		collect_scc_nodes += c
 
 	print ('# nodes in SCCs: ', count_scc_nodes)
 	count_weighted_scc_edges = 0
