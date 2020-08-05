@@ -72,6 +72,9 @@ def is_leaf_node (n):
 	(_, s_cardinality) = hdt_file.search_triples('', broader, n)
 	if s_cardinality == 0:
 		return True
+	(_, s_cardinality) = hdt_file.search_triples(n, broader, '')
+	if s_cardinality == 0:
+		return True
 
 def all_broader_removed(n):
 	(triples, cardinality) = hdt_file.search_triples('', broader, n)

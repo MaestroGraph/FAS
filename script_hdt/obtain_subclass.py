@@ -127,6 +127,9 @@ def is_leaf_node (n):
 	(_, s_cardinality) = hdt_file.search_triples('', subclass, n)
 	if s_cardinality == 0:
 		return True
+	(_, s_cardinality) = hdt_file.search_triples(n, subclass, '')
+	if s_cardinality == 0:
+		return True
 
 def all_subclass_removed(n):
 	(triples, cardinality) = hdt_file.search_triples('', subclass, n)
