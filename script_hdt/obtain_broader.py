@@ -117,7 +117,7 @@ def init_nodes():
 		(triples_reverse, cardi_reverse) = hdt_file.search_triples(r, narrower, l)
 		if cardi_reverse > 0:
 			writer_weight.writerow([dict[l], dict[r], 2])
-			weight [[dict[l], dict[r]] = 2
+			weight [[[dict[l], dict[r]]] = 2
 			count_weighted_edges += 1
 		else :
 			writer_weight.writerow([dict[l], dict[r], 1])
