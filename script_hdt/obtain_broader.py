@@ -117,11 +117,11 @@ def init_nodes():
 		(triples_reverse, cardi_reverse) = hdt_file.search_triples(r, narrower, l)
 		if cardi_reverse > 0:
 			writer_weight.writerow([dict[l], dict[r], 2])
-			weight [[[dict[l], dict[r]]] = 2
+			weight [([dict[l], dict[r])] = 2
 			count_weighted_edges += 1
 		else :
 			writer_weight.writerow([dict[l], dict[r], 1])
-			weight [[dict[l], dict[r]] = 1
+			weight [([dict[l], dict[r])] = 1
 
 	outputfile.close()
 	outputfile_weight.close()
@@ -182,7 +182,7 @@ def construct_graph():
 	print ('# edges of graph = ', len(graph.edges))
 	# output the dictionary of num - URI
 	for (l, r) in graph.edges:
-		writer_weight_reduced.writerow([l,r,weight[[l,r]]])
+		writer_weight_reduced.writerow([l,r,weight[(l,r)]])
 	for n in graph.nodes:
 		writer_map_reduced.writerow([dict[n], n])
 
