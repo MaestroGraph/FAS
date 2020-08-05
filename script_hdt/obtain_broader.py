@@ -221,14 +221,13 @@ def compute_strongly_connected_component():
 
 	print ('# nodes in SCCs: ', count_scc_nodes)
 	count_weighted_scc_edges = 0
-	count_scc_edges = 0
+	# count_scc_edges = 0
 	for (l, r) in weight.keys():
-		if (l,r) in graph.edges:
-			count_scc_edges += 1
-		if l in collect_scc_nodes and r in collect_scc_nodes:
+		if weight[(l, r)] != 1 and  l in collect_scc_nodes and r in collect_scc_nodes:
 			count_weighted_scc_edges += 1
-	print ('# edges in SCC: ', count_scc_edges)
+	# print ('# edges in SCC: ', count_scc_edges)
 	print ('# weighted edges in SCC: ', count_weighted_scc_edges)
+
 	# print (ct)
 
 	# for c in filter_scc:
