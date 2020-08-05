@@ -5,6 +5,7 @@ import csv
 import tldextract
 import json
 import random
+import networkx as nx
 # from equiClass import equiClassManager
 import random
 from tarjan import tarjan
