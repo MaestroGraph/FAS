@@ -37,6 +37,10 @@ file_name = 'broader_edgelist'
 outputfile =  open(file_name, 'w', newline='')
 writer = csv.writer(outputfile, delimiter='\t')
 
+file_name_reduced = 'broader_edgelist'
+outputfile_reduced =  open(file_name_reduced, 'w', newline='')
+writer_reduced = csv.writer(outputfile_reduced, delimiter='\t')
+
 file_name_map = 'broader_map'
 outputfile_map =  open(file_name_map, 'w', newline='')
 writer_map = csv.writer(outputfile_map, delimiter='\t')
@@ -190,6 +194,7 @@ def construct_graph():
 	# output the dictionary of num - URI
 	for (l, r) in graph.edges:
 		writer_weight_reduced.writerow([l,r,weight[(l,r)]])
+		writer_reduced.writerow([l,r])
 	for n in graph.nodes:
 		writer_map_reduced.writerow([dict[n], n])
 
