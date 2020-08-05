@@ -32,12 +32,12 @@ writer_weight = csv.writer(outputfile_weight, delimiter='\t')
 count_weighted_edges = 0
 
 for (l, p, r) in triples:
-    if l not in dict.keys():
-        dict[l] = count
-        count += 1
-    if r not in dict.keys():
-        dict[r] = count
-        count += 1
+	if l not in dict.keys():
+		dict[l] = count
+		count += 1
+	if r not in dict.keys():
+		dict[r] = count
+		count += 1
     writer.writerow([dict[l], dict[r]])
 	(triples_reverse, cardi_reverse) = hdt_file.search_triples(r, narrower, l)
 	if cardi_reverse > 0:
