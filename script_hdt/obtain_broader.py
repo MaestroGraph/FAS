@@ -23,7 +23,7 @@ narrower =  "http://www.w3.org/2004/02/skos/core#narrower"
 
 (triples, cardi) = hdt_file.search_triples("", broader, "")
 
-print (cardi)
+print ('there are in total ', cardi, ' triples')
 
 count = 1
 dict = {}
@@ -176,6 +176,7 @@ def init_nodes():
 
 def construct_graph():
 	# graph
+	global weight
 	print ('**** construct graph ****')
 	print ('# collect nodes = ', len(collect_nodes))
 	for n in collect_nodes:
