@@ -172,8 +172,13 @@ def init_nodes():
 
 	(type_triples, cardinality) = hdt_file.search_triples('', type, '')
 
+	for l,p,r in type_triples:
+		try:
+			l, p, r = l.decode('UTF-8'), p.decode('UTF-8'), r.decode('UTF-8')
+		except UnicodeDecodeError as err:
+			l = unicode(l, errors='ignore')
+			r = unicode(r, errors='ignore')
 
-	for (l, p, r) in type_triples:
 		if l not in dict.keys():
 			dict[l] = count
 			count += 1
