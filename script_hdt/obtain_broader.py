@@ -107,6 +107,8 @@ def init_nodes():
 	global dict
 	global weight
 
+	count = 1
+
 	(broader_triples, cardinality) = hdt_file.search_triples('', broader, '')
 
 
