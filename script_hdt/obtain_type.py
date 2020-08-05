@@ -35,10 +35,13 @@ print ('there are in total ', cardi1, ' triples')
 
 ct = Counter()
 for (_,_, t) in triples:
+	try:
+		t = t.decode('UTF-8')
+	except UnicodeDecodeError as err:
+		t = str(t, errors='ignore')
 	ct[t] += 1
 
 print (ct)
-
 
 # (triples, cardi2) = hdt_file.search_triples("", type, rdfsClass)
 # print ('there are in total ', cardi2, ' typed rdfs:Class triples')
@@ -97,39 +100,39 @@ print (ct)
 # outputfile_map.close()
 #
 # print ('# count weighted edges ', count_weighted_edges)
-
-
-count = 1
-dict = {}
-weight = {}
-
-graph = nx.DiGraph()
-collect_nodes = set()
-can_remove = set()
-
-file_name = 'type_edgelist'
-outputfile =  open(file_name, 'w', newline='')
-writer = csv.writer(outputfile, delimiter='\t')
-
-file_name_reduced = 'type_edgelist'
-outputfile_reduced =  open(file_name_reduced, 'w', newline='')
-writer_reduced = csv.writer(outputfile_reduced, delimiter='\t')
-
-file_name_map = 'type_map'
-outputfile_map =  open(file_name_map, 'w', newline='')
-writer_map = csv.writer(outputfile_map, delimiter='\t')
-
-file_name_map_reduced = 'type_map_reduced'
-outputfile_map_reduced =  open(file_name_map_reduced, 'w', newline='')
-writer_map_reduced = csv.writer(outputfile_map_reduced, delimiter='\t')
-
-file_name_weight = 'type_edgelist_weight'
-outputfile_weight =  open(file_name_weight, 'w', newline='')
-writer_weight = csv.writer(outputfile_weight, delimiter='\t')
-
-file_name_weight_reduced = 'type_edgelist_weight_reduced'
-outputfile_weight_reduced =  open(file_name_weight_reduced, 'w', newline='')
-writer_weight_reduced = csv.writer(outputfile_weight_reduced, delimiter='\t')
+#
+#
+# count = 1
+# dict = {}
+# weight = {}
+#
+# graph = nx.DiGraph()
+# collect_nodes = set()
+# can_remove = set()
+#
+# file_name = 'type_edgelist'
+# outputfile =  open(file_name, 'w', newline='')
+# writer = csv.writer(outputfile, delimiter='\t')
+#
+# file_name_reduced = 'type_edgelist'
+# outputfile_reduced =  open(file_name_reduced, 'w', newline='')
+# writer_reduced = csv.writer(outputfile_reduced, delimiter='\t')
+#
+# file_name_map = 'type_map'
+# outputfile_map =  open(file_name_map, 'w', newline='')
+# writer_map = csv.writer(outputfile_map, delimiter='\t')
+#
+# file_name_map_reduced = 'type_map_reduced'
+# outputfile_map_reduced =  open(file_name_map_reduced, 'w', newline='')
+# writer_map_reduced = csv.writer(outputfile_map_reduced, delimiter='\t')
+#
+# file_name_weight = 'type_edgelist_weight'
+# outputfile_weight =  open(file_name_weight, 'w', newline='')
+# writer_weight = csv.writer(outputfile_weight, delimiter='\t')
+#
+# file_name_weight_reduced = 'type_edgelist_weight_reduced'
+# outputfile_weight_reduced =  open(file_name_weight_reduced, 'w', newline='')
+# writer_weight_reduced = csv.writer(outputfile_weight_reduced, delimiter='\t')
 
 
 
