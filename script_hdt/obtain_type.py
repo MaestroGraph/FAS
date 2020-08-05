@@ -120,9 +120,6 @@ outputfile_weight_reduced =  open(file_name_weight_reduced, 'w', newline='')
 writer_weight_reduced = csv.writer(outputfile_weight_reduced, delimiter='\t')
 
 
-(triples, cardi) = hdt_file.search_triples("", type, )
-
-
 
 
 
