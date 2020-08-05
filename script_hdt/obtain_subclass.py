@@ -256,7 +256,7 @@ def construct_graph():
 	# output the dictionary of num - URI
 	print ('# weight keys = ', len(weight.keys()))
 	for (l, r) in graph.edges:
-		writer_weight_reduced.writerow([l,r,weight[(l,r)]])
+		writer_weight_reduced.writerow([l,r,weight [(dict[l], dict[r])]])
 		writer_reduced.writerow([l,r])
 	for n in graph.nodes:
 		writer_map_reduced.writerow([dict[n], n])
