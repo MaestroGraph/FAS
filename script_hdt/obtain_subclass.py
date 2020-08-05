@@ -25,6 +25,12 @@ hdt_file = HDTDocument(PATH_LOD)
 
 subclass = "http://www.w3.org/2000/01/rdf-schema#subClassOf"
 eqClass = "http://www.w3.org/2002/07/owl#equivalentClass"
+
+
+(triples, cardi) = hdt_file.search_triples("", subclass, "")
+
+print ('there are in total ', cardi, ' triples')
+
 #subclass_id = hdt_file.convert_term(subclass, IdentifierPosition.Predicate)
 #
 # (triples, cardi) = hdt_file.search_triples("", subclass, "")
@@ -276,11 +282,22 @@ def compute_strongly_connected_component():
 	print('# Connected Component Filtered: ', len(filter_scc))
 	ct = Counter()
 	count_scc_nodes = 0
+	collect_scc_nodes = []
 	for c in filter_scc:
 		ct[len(c)] += 1
 		count_scc_nodes += len (c)
 
 	print ('# nodes in SCCs: ', count_scc_nodes)
+	count_weighted_scc_edges = 0
+	count_scc_edges = 0
+	for (l, r) in weight.keys():
+		if (l,r) in graph.edges:
+			count_scc_edges += 1
+		if l in collect_scc_nodes and r in collect_scc_nodes:
+			count_weighted_scc_edges += 1
+	print ('# edges in SCC: ', count_scc_edges)
+	print ('# weighted edges in SCC: ', count_weighted_scc_edges)
+
 	# print (ct)
 
 	# for c in filter_scc:
