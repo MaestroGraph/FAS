@@ -170,7 +170,7 @@ def init_nodes():
 	count_weighted_edges = 0
 
 
-	(type_triples, cardinality) = hdt_file.search_triple_bytes('', type, '')
+	(type_triples, cardinality) = hdt_file.search_triples_bytes('', type, '')
 
 	for l,p,r in type_triples:
 		try:
