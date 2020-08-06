@@ -294,7 +294,7 @@ def compute_strongly_connected_component():
 		# also export the scc
 		subgraph = graph.subgraph(list(c))
 		scc_file_name = './subclass/' +str(index) + '_edgelist_' + str(len(subgraph.edges))
-		scc_outputfile =  open(scc_file_name, 'w', newline='')
+		scc_outputfile =  open(scc_file_name, 'w+', newline='')
 		scc_writer = csv.writer(scc_outputfile, delimiter='\t')
 
 		for (l, r) in subgraph.edges:
