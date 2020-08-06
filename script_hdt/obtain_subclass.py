@@ -288,6 +288,7 @@ def compute_strongly_connected_component():
 	collect_scc_nodes = []
 	index = 0
 	for c in filter_scc:
+		index += 1
 		ct[len(c)] += 1
 		count_scc_nodes += len (c)
 		collect_scc_nodes += c
