@@ -144,9 +144,9 @@ def init_nodes():
 			print ('there are cases were broader + narrower + eqClass')
 
 		if acc != 0:
-			writer_weight.writerow([dict[l], dict[r], acc+1])
+			writer_weight.writerow([acc+1, dict[l], dict[r]])
 		else :
-			writer_weight.writerow([dict[l], dict[r], 1])
+			writer_weight.writerow([1, dict[l], dict[r]])
 			weight [(dict[l], dict[r])] = 1
 
 	outputfile.close()
@@ -212,8 +212,8 @@ def construct_graph():
 	# output the dictionary of num - URI
 	print ('# weight keys = ', len(weight.keys()))
 	for (l, r) in graph.edges:
-		writer_weight_reduced.writerow([l,r,weight [(dict[l], dict[r])]])
-		writer_reduced.writerow([l,r])
+		writer_weight_reduced.writerow([weight [(dict[l], dict[r])], dict[l] ,dict[r]])
+		writer_reduced.writerow([dict[l], dict[r]])
 	for n in graph.nodes:
 		writer_map_reduced.writerow([dict[n], n])
 
@@ -233,10 +233,22 @@ def compute_strongly_connected_component():
 	ct = Counter()
 	count_scc_nodes = 0
 	collect_scc_nodes = []
+	index = 0
 	for c in filter_scc:
 		ct[len(c)] += 1
 		count_scc_nodes += len (c)
 		collect_scc_nodes += c
+		# also export the scc
+		subgraph = graph.subgraph(list(c))
+		scc_file_name = './broader/' +str(index) + '_edgelist_' + str(len(subgraph.edges))
+		scc_outputfile =  open(scc_file_name, 'w', newline='')
+		scc_writer = csv.writer(scc_outputfile, delimiter='\t')
+
+		for (l, r) in subgraph.edges:
+			# export to the folder with index
+			scc_writer.writerow([l, r])
+		scc_outputfile.close()
+
 
 	print ('# nodes in SCCs: ', count_scc_nodes)
 	count_weighted_scc_edges = 0
