@@ -65,8 +65,10 @@ public class BergerShorFAS {
 
 	public long computeFAS() throws Exception {
 
-     	String outfile = basename + "_skews.txt";
-     	PrintWriter writer = new PrintWriter(outfile, "UTF-8");
+     	// String outfile = basename + "_skews.txt";
+     	// PrintWriter writer = new PrintWriter(outfile, "UTF-8");
+		String outfile_removed = basename + "_removed_edges_BS";
+		PrintWriter writer_removed = new PrintWriter(outfile_removed, "UTF-8");
 
      	shuffle(A);
      	long mag = 0;
@@ -100,17 +102,27 @@ public class BergerShorFAS {
               if (in+out > 0) {
                	if (in > out) {
                      	mag += in;
-                   	writer.println((double)(out) / (in+out));
+                   	// writer.println((double)(out) / (in+out));
+					// write out the removed edges: all outgoing edges
+						for (int j =0; j < out_deg; j++){
+							writer_removed.printf("%d\t%d\n", A[v], out_neighbors[j]);
+						}
+
                	} else {
                      	mag += out;
-                     	writer.println((double)(in) / (in+out));
+                     	// writer.println((double)(in) / (in+out));
+						// write out the removed edges: all in-coming edges
+						for (int j =0; j < out_deg; j++){
+							writer_removed.printf("%d\t%d\n", out_neighbors[j], A[v]);
+						}
                	}
               }
 
       		deleted.set(A[v]);
      	}
 
-     	writer.close();
+		// writer.close();
+     	writer_removed.close();
 
      	long fas = e - mag;
 
