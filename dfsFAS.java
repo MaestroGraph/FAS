@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.BitSet;
 import java.util.Deque;
 import java.util.ArrayDeque;
+import java.io.PrintWriter;
 
 import it.unimi.dsi.webgraph.ImmutableGraph;
 import it.unimi.dsi.webgraph.NodeIterator;
@@ -22,47 +23,54 @@ public class dfsFAS {
 	int n; // number of vertices in G
 	int fas; // number of edges in fas
 	int[] color; // color nodes to determine back edges: 0=white, 1=grey, 2=black
-		
+
+	String outfile_removed;
+	PrintWriter writer_removed;
+
+
 	// load graph and initialize class variables
 	public dfsFAS(String basename) throws Exception {
 		this.basename = basename;
-		
+		this.outfile_removed = basename + "_removed_edges_DFS";
+		this.writer_removed = new PrintWriter(outfile_removed, "UTF-8");
+
 		System.out.println("Loading graph...");
 		G = ImmutableGraph.load(basename); //We need random access
 		System.out.println("Graph loaded");
-		
+
 		n = G.numNodes();
 		System.out.println("n="+n);
-		System.out.println("e="+G.numArcs());	
-		
+		System.out.println("e="+G.numArcs());
+
 		color = new int[n];
 		fas = 0;
 	}
-	
+
 	public void DFS(int v) throws Exception {
      	color[v] = 1; // v discovered
-     	
+
      	int[] v_neighbors = G.successorArray(v);
      	int v_deg = G.outdegree(v);
      	int w;
-			
+
      	for(int i = 0; i < v_deg; i++) { // explore edge
       		w = v_neighbors[i];
-				
+
       		if(v == w) { // Self-loop, ignore
      			continue;
       		}
-      		
+
       		if (color[w] == 0) {
           		DFS(w);
       		} else if (color[w] == 1) {
           		fas++;
+				this.writer_removed.printf("%d\t%d\n", v, w);
       		}
       	}
-      	
+
       	color[v] = 2; // v finished
 	}
-	
+
 	public void computeFAS() throws Exception {
      	NodeIterator vi = G.nodeIterator();
 		while (vi.hasNext()) {
@@ -71,26 +79,27 @@ public class dfsFAS {
                	DFS(u);
               }
      	}
+		this.writer_removed.close();
      	System.out.println("fas = " + fas);
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		long startTime = System.currentTimeMillis();
-		
+
 		//args = new String[] {"cnr-2000"};
 		//args = new String[] {"wordassociation-2011"};
-		
+
 		if(args.length != 1) {
 			System.out.println("Usage: java dfsFAS basename");
 			System.out.println("Output: FAS statistics");
 			return;
 		}
-		
+
 		System.out.println("Starting " + args[0]);
-		
+
 		dfsFAS fas = new dfsFAS(args[0]);
 		fas.computeFAS();
-				
+
 		long estimatedTime = System.currentTimeMillis() - startTime;
           System.out.println(args[0] + ": Time elapsed = " + estimatedTime/1000.0);
 	}

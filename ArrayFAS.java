@@ -19,6 +19,9 @@ import it.unimi.dsi.webgraph.NodeIterator;
 public class ArrayFAS {
 
 	String basename; // input graph basename
+	String outfile_removed;
+	PrintWriter writer_removed;
+
    	ImmutableGraph G, I;// graph G and its inverse I
 	int n; // number of vertices in G
 	int numClasses; // number of vertex classes
@@ -32,6 +35,8 @@ public class ArrayFAS {
 	// load graph and initialize class variables
 	public ArrayFAS(String basename) throws Exception {
 		this.basename = basename;
+		this.outfile_removed = basename + "_removed_edges_arr";
+		this.writer_removed = new PrintWriter(outfile_removed, "UTF-8");
 
 		System.out.println("Loading graph...");
 		G = ImmutableGraph.load(basename); //We need random access
@@ -266,12 +271,14 @@ public class ArrayFAS {
 				if (varray[v] > varray[w]) {
 					fvs.set(v);
 					fas++;
+					this.writer_removed.printf("%d\t%d\n", v, w);
 				}
       		}
 		}
 
-        System.out.println("fvs size is " + fvs.cardinality());
+        // System.out.println("fvs size is " + fvs.cardinality());
         System.out.println("fas size is " + fas);
+		this.writer_removed.close();
         //System.out.println("self loops = " + self);
 	}
 

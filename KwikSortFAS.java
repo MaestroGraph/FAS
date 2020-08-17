@@ -116,6 +116,9 @@ public class KwikSortFAS {
 	}
 
 	public long computeFAS() throws Exception {
+		String outfile_removed = basename + "_removed_edges_KS";
+		PrintWriter writer_removed = new PrintWriter(outfile_removed, "UTF-8");
+
      	// reset A
      	for(int i = 0; i < A.length; i++) {
       		A[i] = i;
@@ -158,14 +161,15 @@ public class KwikSortFAS {
 				if (varray[v] > varray[w]) {
 					fvs.set(v);
 					fas++;
+					writer_removed.printf("%d\t%d\n", v, w);
 				}
       		}
 		}
 
-        //System.out.println("fvs size is " + fvs.cardinality());
+        // System.out.println("fvs size is " + fvs.cardinality());
         System.out.println("fas size is " + fas);
         //System.out.println("self loops = " + self);
-
+		writer_removed.close();
         return fas;
 	}
 
