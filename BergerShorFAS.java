@@ -104,8 +104,8 @@ public class BergerShorFAS {
                      	mag += in;
                    	// writer.println((double)(out) / (in+out));
 					// write out the removed edges: all outgoing edges
-						for (int j =0; j < out_deg; j++){
-							writer_removed.printf("%d\t%d\n", A[v], out_neighbors[j]);
+						for (int j =0; j < in_deg; j++){
+							writer_removed.printf("%d\t%d\n", in_neighbors[j], A[v]);
 						}
 
                	} else {
@@ -113,7 +113,7 @@ public class BergerShorFAS {
                      	// writer.println((double)(in) / (in+out));
 						// write out the removed edges: all in-coming edges
 						for (int j =0; j < out_deg; j++){
-							writer_removed.printf("%d\t%d\n", out_neighbors[j], A[v]);
+							writer_removed.printf("%d\t%d\n", A[v], out_neighbors[j]);
 						}
                	}
               }
