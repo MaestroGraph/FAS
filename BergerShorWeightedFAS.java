@@ -143,11 +143,12 @@ public class BergerShorWeightedFAS {
       				continue;
       			if (!deleted.get(w)){
            			// in+=in_labels[x].getInt();
-					// p = new Pair <>(A[w], A[v]);
+					p = new ArrayList<Integer>();
 					p.add(A[w]);
 					p.add(A[v]);
 					if (this.weight_list_pairs.contains(p)) { // if the pair is in this.weight_list_pairs,
 						in += 2;
+						// System.out.println(p);
 					}else{
 						in += 1;
 					}
@@ -164,11 +165,12 @@ public class BergerShorWeightedFAS {
       			if (!deleted.get(w))
            			// out+=out_labels[x].getInt();
 
-					// p = new Pair <>(A[v], A[w]);
+					p = new ArrayList<Integer>();
 					p.add(A[v]);
 					p.add(A[w]);
 					if (this.weight_list_pairs.contains(p)) { // if the pair is in this.weight_list_pairs,
 						out += 2;
+						// System.out.println(p);
 					}else{
 						out += 1;
 					}
