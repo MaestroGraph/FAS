@@ -12,18 +12,26 @@ import java.io.IOException;
 import java.util.BitSet;
 import java.util.List;
 import java.util.LinkedList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import it.unimi.dsi.webgraph.ImmutableGraph;
+import it.unimi.dsi.webgraph.NodeIterator;
+
+// import it.unimi.dsi.webgraph.labelling.ArcLabelledImmutableGraph;
+// import it.unimi.dsi.webgraph.labelling.ArcLabelledNodeIterator;
 
 import it.unimi.dsi.webgraph.ImmutableGraph;
 import it.unimi.dsi.webgraph.NodeIterator;
 
-import it.unimi.dsi.webgraph.labelling.ArcLabelledImmutableGraph;
-import it.unimi.dsi.webgraph.labelling.ArcLabelledNodeIterator;
+import java.util.*;
+
 import it.unimi.dsi.webgraph.labelling.Label;
 
 public class ArrayWeightedFAS {
 
 	String basename; // input graph basename
-   	ArcLabelledImmutableGraph G, I;// graph G and its inverse I
+   	ImmutableGraph G, I;// graph G and its inverse I
 	int n; // number of vertices in G
 	int numClasses; // number of vertex classes
 	int[] bins; // holds the tail of bin i
@@ -33,25 +41,32 @@ public class ArrayWeightedFAS {
 	int[] weights; // delta weights for a vertex
 	int max_delta = Integer.MIN_VALUE;
 	List<Integer> seq = null;
+	List<Integer> p = new ArrayList<Integer>();
+	int W = 2; // maximum weight
+	Set<List<Integer> > weight_list_pairs = new HashSet<List<Integer>> ();
 
 	// load graph and initialize class variables
 	public ArrayWeightedFAS(String basename) throws Exception {
 		this.basename = basename;
 
 		System.out.println("Loading graph...");
-		G = ArcLabelledImmutableGraph.load(basename); //We need random access
+		G = ImmutableGraph.load(basename); //We need random access
 		System.out.println("Graph loaded");
 
 		//System.out.println("Transposing graph...");
 		//I = Transform.transpose(G);
 		System.out.println("Loading transpose graph...");
-		I = ArcLabelledImmutableGraph.load(basename+"-t");
+		I = ImmutableGraph.load(basename+"-t");
 		System.out.println("Graph loaded");
+
+		System.out.println("Loading weights...");
+		weight_list_pairs = load_weights(this.basename+"_edgelist_weight_reduced");
+		System.out.println("Weights loaded");
 
 		n = G.numNodes();
 		System.out.println("n="+n);
 		System.out.println("e="+G.numArcs());
-		numClasses = 2*n - 3;
+		numClasses = 2*W*n - 4*W +1 ; //2*n - 3;
 		deltas = new int[n];
 		weights = new int[n];
 		next = new int[n]; // init to -1
@@ -69,6 +84,38 @@ public class ArrayWeightedFAS {
 		//System.out.println("Bins created");
 	}
 
+	public Set<List<Integer> > load_weights(String weight_file_name){
+
+		Set<List<Integer> > w = new HashSet<List<Integer>> ();
+		//file format: 1	730354	730340
+		String line = "";
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(weight_file_name));
+			System.out.println("to load: "+ weight_file_name);
+
+			while ((line = br.readLine()) != null) {
+				// use comma as separator
+
+				String[] row = line.split("\t");
+				// System.out.println("row " + row[1] + " , " + row[2] + " has weight "+ row[0]);
+				if (Integer.parseInt(row[0]) == 1){
+					List<Integer> p = new ArrayList<Integer>();
+					p.add(Integer.parseInt(row[1]));
+					p.add(Integer.parseInt(row[2]));
+					// Pair<Integer,Integer> p = new Pair <>(Integer.parseInt(row[1]), Integer.parseInt(row[2]));
+					w.add(p);
+				}
+			}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		int s = w.size();
+		System.out.println(s);
+
+		return w;
+	}
+
 	// initialize bins
 	void createbins() {
 		NodeIterator vi = G.nodeIterator();
@@ -77,42 +124,96 @@ public class ArrayWeightedFAS {
 
            	//int odeg = deg(G,u);
            	//int ideg = deg(I,u);
-           	int oweight = weights(G,u);
-           	int iweight = weights(I,u);
+           	int oweight = oweights(G,u);
+           	int iweight = iweights(I,u);
 
            	// compute weight for vertex u
            	weights[u] = oweight - iweight;
 
            	if(oweight == 0) {
-            		addToBin(2-n, u);
-            		deltas[u] = 2 - n;
+            		addToBin(W*(2-n), u);
+            		deltas[u] = W*(2-n);
            	} else if (iweight == 0 && oweight > 0) {
-          		addToBin(n-2, u);
-          		deltas[u] = n - 2;
+          		addToBin(W*(n-2), u);
+          		deltas[u] = W*(n - 2);
            	} else {
                	// determine approximate delta class
-               	int ad = (oweight - iweight) / 100;
-               	//int d = odeg - ideg;
+               	//int ad = (oweight - iweight) / 100;
+               	int ad = oweight - iweight; // mine
           		addToBin(ad, u);
           		deltas[u] = ad;
            	}
           }
 	}
-
-	int weights(ArcLabelledImmutableGraph G, int u) {
+	// mine: compute the weighted out degree
+	int oweights(ImmutableGraph G, int u) {
 		//count degree without self-loops
 		int ret = 0;
 		int[] u_neighbors = G.successorArray(u);
 		int u_deg = G.outdegree(u);
-		Label[] u_labels = G.labelArray(u);
+		// Label[] u_labels = G.labelArray(u);
 		for(int i=0; i<u_deg; i++) {
 			int v = u_neighbors[i];
 			if(v==u)
 				continue;
-			ret+=u_labels[i].getInt();
+			// ret+=u_labels[i].getInt();// weight
+
+			p = new ArrayList<Integer>();
+			p.add(u);
+			p.add(v);
+			if (this.weight_list_pairs.contains(p)) { // if the pair is in this.weight_list_pairs,
+				ret += 2;
+				// System.out.println(p);
+			}else{
+				ret += 1;
+			}
 		}
 		return ret;
 	}
+
+	// mine: compute the weighted out degree
+	int iweights(ImmutableGraph I, int u) {
+		//count degree without self-loops
+		int ret = 0;
+		int[] u_neighbors = I.successorArray(u);
+		int u_deg = I.outdegree(u);
+		// Label[] u_labels = I.labelArray(u);
+		for(int i=0; i<u_deg; i++) {
+			int v = u_neighbors[i];
+			if(v==u)
+				continue;
+			// ret+=u_labels[i].getInt();// weight
+
+			p = new ArrayList<Integer>();
+			p.add(v);
+			p.add(u);
+			if (this.weight_list_pairs.contains(p)) { // if the pair is in this.weight_list_pairs,
+				ret += 2;
+				// System.out.println(p);
+			}else{
+				ret += 1;
+			}
+		}
+		return ret;
+	}
+
+
+
+	//
+	// int weights(ArcLabelledImmutableGraph G, int u) {
+	// 	//count degree without self-loops
+	// 	int ret = 0;
+	// 	int[] u_neighbors = G.successorArray(u);
+	// 	int u_deg = G.outdegree(u);
+	// 	Label[] u_labels = G.labelArray(u);
+	// 	for(int i=0; i<u_deg; i++) {
+	// 		int v = u_neighbors[i];
+	// 		if(v==u)
+	// 			continue;
+	// 		ret+=u_labels[i].getInt();
+	// 	}
+	// 	return ret;
+	// }
 
 	int deg(ImmutableGraph G, int u) {
 		//count degree without self-loops
@@ -158,10 +259,10 @@ public class ArrayWeightedFAS {
      		}
 
 			if(numdel < n) {
-     			if(bins[max_delta - (2 - n)] == -1)
+     			if(bins[max_delta - W*(2 - n)] == -1)
            			System.out.println("max_delta bin is empty: " + max_delta);
-     			int u = bins[max_delta - (2 - n)];
-     			bins[max_delta - (2 - n)] = prev[u];
+     			int u = bins[max_delta - W*(2 - n)];
+     			bins[max_delta - W*(2 - n)] = prev[u];
      			if(prev[u] != -1)
            			next[prev[u]] = -1;
            		updateMaxDelta(max_delta);
@@ -189,10 +290,10 @@ public class ArrayWeightedFAS {
 	}
 
 	// delete a vertex from G by updating the vertex class and bin of its neighbours in G
-	void deleteNode(ArcLabelledImmutableGraph G, int u, boolean out) {
+	void deleteNode(ImmutableGraph G, int u, boolean out) {
 		int[] u_neighbors = G.successorArray(u);
 		int u_deg = G.outdegree(u);
-		Label[] u_labels = G.labelArray(u);
+		// Label[] u_labels = G.labelArray(u);
 		for(int i = 0; i < u_deg; i++) {
 			int v = u_neighbors[i];
 
@@ -203,7 +304,18 @@ public class ArrayWeightedFAS {
      			int oldDelta = deltas[v];
      			int newDelta = oldDelta;
 
-     			int uv_weight = u_labels[i].getInt();
+     			// int uv_weight = u_labels[i].getInt();
+				// weight for	u, v
+				int uv_weight = 0;
+				p = new ArrayList<Integer>();
+				p.add(u);
+				p.add(v);
+				if (this.weight_list_pairs.contains(p)) { // if the pair is in this.weight_list_pairs,
+					uv_weight = 2;
+					// System.out.println(p);
+				}else{
+					uv_weight = 1;
+				}
 
      			// how do we update the delta value
            		// only increment if weight removed pushes it over the edge
@@ -223,8 +335,8 @@ public class ArrayWeightedFAS {
                  	if (oldDelta != newDelta) {
                    	deltas[v] = newDelta;
 
-                   	if (bins[oldDelta - (2 - n)] == v)
-                         	bins[oldDelta - (2 - n)] = prev[v];
+                   	if (bins[oldDelta - W*(2 - n)] == v)
+                         	bins[oldDelta - W*(2 - n)] = prev[v];
 
                        if (prev[v] != -1)
                             next[prev[v]] = next[v];
@@ -241,35 +353,40 @@ public class ArrayWeightedFAS {
 
     // add vertex v to bin corresponding to delta
     void addToBin(int delta, int v) {
-      if (bins[delta - (2 - n)] == -1) {
-        bins[delta - (2 - n)] = v;
+      if (bins[delta - W*(2 - n)] == -1) {
+        bins[delta - W*(2 - n)] = v;
         prev[v] = -1;
       } else {
-        next[bins[delta - (2 - n)]] = v;
-        prev[v] = bins[delta - (2 - n)];
-        bins[delta - (2 - n)] = v;
+        next[bins[delta - W*(2 - n)]] = v;
+        prev[v] = bins[delta - W*(2 - n)];
+        bins[delta - W*(2 - n)] = v;
       }
 
       next[v] = -1;
 
-      if(delta < n-2 && max_delta < delta)
+      if(delta < W*(n-2) && max_delta < delta)
         max_delta = delta;
 	}
 
 	// update the max delta value
 	void updateMaxDelta(int delta) {
-		if(delta == max_delta && bins[delta - (2 - n)] == -1) {
-			while(bins[max_delta - (2 - n)] == -1) {
+		if(delta == max_delta && bins[delta - W*(2 - n)] == -1) {
+			while(bins[max_delta - W*(2 - n)] == -1) {
      			max_delta--;
 
-				if(max_delta == (2 - n))
+				if(max_delta == W*(2 - n))
            			break;
 			}
 		}
+		// System.out.println(max_delta);
+		// System.out.println(W*(2 - n));
 	}
 
 	// create the DAG from the computed vertex sequence
 	public void computeFAS() throws Exception {
+		String outfile_removed = basename + "_removed_weighted_edges_arr";
+		PrintWriter writer_removed = new PrintWriter(outfile_removed, "UTF-8");
+
 		if (seq == null)
 			this.computeseq();
 
@@ -290,7 +407,7 @@ public class ArrayWeightedFAS {
 
 			int[] v_neighbors = G.successorArray(v);
 			int v_deg = G.outdegree(v);
-			Label[] v_labels = G.labelArray(v);
+			// Label[] v_labels = G.labelArray(v);
 
 			for(int x = 0; x < v_deg; x++) {
 				int w = v_neighbors[x];
@@ -302,12 +419,24 @@ public class ArrayWeightedFAS {
 
 				if (varray[v] > varray[w]) {
 					fvs.set(v);
-					fas+=v_labels[x].getInt();
+					//fas+=v_labels[x].getInt();
+
+					p = new ArrayList<Integer>();
+					p.add(v);
+					p.add(w);
+					if (this.weight_list_pairs.contains(p)) { // if the pair is in this.weight_list_pairs,
+						fas += 2;
+						// System.out.println(p);
+					}else{
+						fas += 1;
+					}
+					writer_removed.printf("%d\t%d\n", v, w);
+
 				}
       		}
 		}
-
-        System.out.println("fvs size is " + fvs.cardinality());
+		writer_removed.close();
+        // System.out.println("fvs size is " + fvs.cardinality());
         System.out.println("fas weight is " + (double)(fas)/100);
         //System.out.println("self loops = " + self);
 	}

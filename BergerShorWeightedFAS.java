@@ -194,7 +194,7 @@ public class BergerShorWeightedFAS {
      	}
 
      	System.out.println("fas weight is " + (double)(fas)/100);
-
+		writer_removed.close();
      	return fas;
 	}
 
