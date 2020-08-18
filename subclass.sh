@@ -5,7 +5,8 @@ STR="subclass"
 EDGELIST="_edgelist"
 EDGELISTSORTED='_edgelistsorted'
 INVERSE='-t'
-ALGO="BergerShorFAS" #or BergerShorFAS # KwikSortFAS #dllFAS # dfsFAS
+ALGO="BergerShorWeightedFAS" #or BergerShorFAS # KwikSortFAS #dllFAS # dfsFAS # ArrayFAS
+	# BergerShorWeightedFAS #
   echo "convert files for "$STR
   echo "for this, we need the edgelist and its inverse"
   python get_inverse_graph.py $STR$EDGELIST
